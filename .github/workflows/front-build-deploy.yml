@@ -1,6 +1,10 @@
 name: ePortfolio-front build-and-deploy
 
-on: [push]
+on: 
+  push:
+    paths:
+      - '.github/workflows/front-build-deploy.yml'
+      - 'front/**'
 
 jobs:
   build-deploy:
