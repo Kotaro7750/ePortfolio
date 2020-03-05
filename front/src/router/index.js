@@ -3,7 +3,6 @@ import BootstrapVue from 'bootstrap-vue'
 import Router from 'vue-router'
 import firebase from 'firebase'
 import HelloWorld from '@/components/HelloWorld'
-import About from '@/components/About'
 import SignIn from '@/components/auth/SignIn'
 
 Vue.use(Router)
@@ -20,11 +19,6 @@ let router = new Router({
       name: 'HelloWorld',
       component: HelloWorld,
       meta: { requiresAuth: true }
-    },
-    {
-      path: '/about',
-      name: 'About',
-      component: About
     },
     {
       path: '/signin',
