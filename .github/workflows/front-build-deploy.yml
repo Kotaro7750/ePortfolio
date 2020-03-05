@@ -46,4 +46,4 @@ jobs:
     - name: Deploy to Heroku
       if: github.ref == 'refs/heads/master' && job.status == 'success'
       run: |
-        git subtree push --prefix front/ heroku-front master
+        git push heroku-front `git subtree split --prefix front master`:master --force
