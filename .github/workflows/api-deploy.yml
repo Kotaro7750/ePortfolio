@@ -1,0 +1,24 @@
+name: ePortfolio-api deploy
+
+on: 
+  push:
+    paths:
+      - '.github/workflows/api-deploy.yml'
+      - 'api/**'
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-18.04
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: remote add Heroku
+      env:
+        HEROKU_API_TOKEN: ${{ secrets.FRONT_HEROKU_API_TOKEN }}
+        HEROKU_APP_NAME: "kotaro7750-e-portfolio-api"
+      run: git remote add heroku-api https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git
+    
+    - name: Deploy to Heroku
+      if: github.ref == 'refs/heads/master' && job.status == 'success'
+      run: |
+        git push heroku-api `git subtree split --prefix api master`:master --force
