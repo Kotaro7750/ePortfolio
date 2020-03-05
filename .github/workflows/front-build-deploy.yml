@@ -33,11 +33,11 @@ jobs:
       working-directory: 'front'
       run: npm run build
       
-    - name: remote add Heroku
-      env:
-        HEROKU_API_TOKEN: ${{ secrets.FRONT_HEROKU_API_TOKEN }}
-        HEROKU_APP_NAME: "kotaro7750-e-portfolio-front"
-      run: git remote add heroku-front https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git
+      #    - name: remote add Heroku
+      #      env:
+      #        HEROKU_API_TOKEN: ${{ secrets.FRONT_HEROKU_API_TOKEN }}
+      #        HEROKU_APP_NAME: "kotaro7750-e-portfolio-front"
+      #      run: git remote add heroku-front https://heroku:$HEROKU_API_TOKEN@git.heroku.com/$HEROKU_APP_NAME.git
     
     - name: Deploy to Heroku
       if: github.ref == 'refs/heads/master' && job.status == 'success'
