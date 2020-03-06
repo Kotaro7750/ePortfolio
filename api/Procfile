@@ -1,2 +1,1 @@
-release: goose -env production up
 web: e-portfolio-api
