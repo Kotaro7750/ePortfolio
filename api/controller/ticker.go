@@ -6,16 +6,23 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type TickerCtl struct {
 	DB *sql.DB
 }
 
-func (t *TickerCtl) GetTickerList(c *gin.Context) {
-	testTickerList := []model.Ticker{{Id: 0, Ticker: "MMM", Devidened: 5.88}}
+func (t *TickerCtl) GetList(c *gin.Context) {
+	tickerList, err := model.GetTickerList(t.DB)
 
-	res, err := json.Marshal(testTickerList)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err,
+		})
+	}
+
+	res, err := json.Marshal(tickerList)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -29,4 +36,46 @@ func (t *TickerCtl) GetTickerList(c *gin.Context) {
 		"error":  nil,
 	})
 	return
+}
+
+func (t *TickerCtl) Add(c *gin.Context) {
+	var ticker model.Ticker
+	if err := c.ShouldBindJSON(&ticker); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	err := model.AddTicker(t.DB, ticker)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"result": ticker,
+		"error":  nil,
+	})
+	return
+}
+
+func (t *TickerCtl) Delete(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	err = model.DeleteTicker(t.DB, id)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
 }

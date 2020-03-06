@@ -1,0 +1,7 @@
+development:
+  driver: postgres
+  open: dbname=postgres host=127.0.0.1 user=postgres password=pass port=5432 sslmode=disable
+
+production:
+  driver: postgres
+  open: $DATABASE_URL
