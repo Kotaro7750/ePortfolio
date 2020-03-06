@@ -2,7 +2,7 @@
   <div>
     <h3>ティッカー</h3>
     <TickerList/>
-    <TickerEditor :message='"追加"'/>
+    <TickerEditor :message='"追加"' @dispatch="addTicker"/>
   </div>
 </template>
 
@@ -15,6 +15,12 @@ export default {
   components:{
     TickerList,
     TickerEditor,
-  }
+  },
+
+  methods:{
+    addTicker(input){
+      alert(input.ticker + ' ' + input.dividened);
+    }
+  },
 }
 </script>
