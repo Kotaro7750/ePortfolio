@@ -62,6 +62,47 @@ func (t *TickerCtl) Add(c *gin.Context) {
 	return
 }
 
+func (t *TickerCtl) Update(c *gin.Context) {
+	var ticker model.Ticker
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if err := c.ShouldBindJSON(&ticker); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	if ticker.Id != id {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "id is contradicted to URL",
+		})
+		return
+	}
+
+	err = model.UpdateTicker(t.DB, ticker)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"result": ticker,
+		"error":  nil,
+	})
+	return
+
+}
+
 func (t *TickerCtl) Delete(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

@@ -45,8 +45,31 @@ func AddTicker(db *sql.DB, t Ticker) error {
 		log.Printf("Query Error: %s", err.Error())
 		return err
 	}
-	ins.Exec(t.Ticker, t.Dividened)
+
+	_, err = ins.Exec(t.Ticker, t.Dividened)
+	if err != nil {
+		log.Printf("Exec Error: %s", err.Error())
+		return err
+	}
+
 	return nil
+}
+
+func UpdateTicker(db *sql.DB, t Ticker) error {
+	ins, err := db.Prepare("UPDATE ticker SET ticker=$1,dividened=$2 WHERE id=$3")
+	if err != nil {
+		log.Printf("Query Error: %s", err.Error())
+		return err
+	}
+
+	_, err = ins.Exec(t.Ticker, t.Dividened, t.Id)
+	if err != nil {
+		log.Printf("Exec Error: %s", err.Error())
+		return err
+	}
+
+	return nil
+
 }
 
 func DeleteTicker(db *sql.DB, id int) error {

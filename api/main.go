@@ -40,6 +40,7 @@ func main() {
 
 	router.GET("/ticker", tickerCtl.GetList)
 	router.POST("/ticker", tickerCtl.Add)
+	router.PUT("/ticker/:id", tickerCtl.Update)
 	router.DELETE("/ticker/:id", tickerCtl.Delete)
 
 	Port := os.Getenv("PORT")
