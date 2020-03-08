@@ -20,6 +20,7 @@ func (t *TickerCtl) GetList(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err,
 		})
+		return
 	}
 
 	res, err := json.Marshal(tickerList)

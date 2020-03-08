@@ -1,7 +1,9 @@
 package main
 
+//"firebase.google.com/go/auth"
 import (
 	"database/sql"
+	"e-portfolio-api/auth"
 	"e-portfolio-api/controller"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -38,10 +40,10 @@ func main() {
 
 	tickerCtl := controller.TickerCtl{DB: db}
 
-	router.GET("/ticker", tickerCtl.GetList)
-	router.POST("/ticker", tickerCtl.Add)
-	router.PUT("/ticker/:id", tickerCtl.Update)
-	router.DELETE("/ticker/:id", tickerCtl.Delete)
+	router.GET("/ticker", auth.AuthMiddleWare(), tickerCtl.GetList)
+	router.POST("/ticker", auth.AuthMiddleWare(), tickerCtl.Add)
+	router.PUT("/ticker/:id", auth.AuthMiddleWare(), tickerCtl.Update)
+	router.DELETE("/ticker/:id", auth.AuthMiddleWare(), tickerCtl.Delete)
 
 	Port := os.Getenv("PORT")
 	router.Run(":" + Port)
