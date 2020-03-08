@@ -17,6 +17,7 @@
 
 <script>
 import  TickerEditor  from "@/components/ticker/TickerEditor.vue";
+import firebase from 'firebase';
 
 export default {
   name: 'TickerList',
@@ -37,11 +38,16 @@ export default {
 
   methods:{
     updateList(){
-      let url = process.env.VUE_APP_API_URL + '/ticker'
+      firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+        let url = process.env.VUE_APP_API_URL + '/ticker'
 
-      fetch(url,{
-        method:'GET'
+        return fetch(url,{
+          method:'GET',
+          headers: {
+              'Authorization': `Bearer ${idToken}`,
+          },
 
+        })
       }).then(res =>{
         if (res.ok) {
           return res.json();
@@ -60,11 +66,15 @@ export default {
     },
 
     deleteTicker(id){
-      let url = process.env.VUE_APP_API_URL + '/ticker/' + String(id);
+      firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+        let url = process.env.VUE_APP_API_URL + '/ticker/' + String(id);
 
-      fetch(url,{
-        method:'DELETE'
-
+        return fetch(url,{
+          method:'DELETE',
+          headers: {
+              'Authorization': `Bearer ${idToken}`,
+          },
+        })
       }).then(res =>{
         if (res.ok) {
           this.updateList();
@@ -80,16 +90,19 @@ export default {
     },
 
     updateTicker(input){
-      let url = process.env.VUE_APP_API_URL + '/ticker/' + String(this.edittingID);
+      firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+        let url = process.env.VUE_APP_API_URL + '/ticker/' + String(this.edittingID);
 
-      fetch(url,{
-        method:'PUT',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({id:this.edittingID,ticker:input.ticker,dividened:Number(input.dividened)}),
+        return fetch(url,{
+          method:'PUT',
+          headers: {
+              "Content-Type": "application/json",
+              'Authorization': `Bearer ${idToken}`,
+          },
+          body: JSON.stringify({id:this.edittingID,ticker:input.ticker,dividened:Number(input.dividened)}),
 
-      }).then(res =>{
+        })
+      }.bind(this)).then(res =>{
         if (res.ok) {
           this.updateList();
           alert("success");

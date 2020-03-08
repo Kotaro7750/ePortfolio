@@ -9,6 +9,7 @@
 <script>
 import  TickerList  from "@/components/ticker/TickerList.vue";
 import  TickerEditor  from "@/components/ticker/TickerEditor.vue";
+import firebase from 'firebase';
 
 export default {
   name:'Ticker',
@@ -19,15 +20,18 @@ export default {
 
   methods:{
     addTicker(input){
-      let url = process.env.VUE_APP_API_URL + '/ticker'
+      firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
+        let url = process.env.VUE_APP_API_URL + '/ticker'
 
-      fetch(url,{
-        method:'POST',
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ticker:input.ticker,dividened:Number(input.dividened)}),
+        return fetch(url,{
+          method:'POST',
+          headers: {
+              "Content-Type": "application/json",
+              'Authorization': `Bearer ${idToken}`,
+          },
+          body: JSON.stringify({ticker:input.ticker,dividened:Number(input.dividened)}),
 
+        })
       }).then(res =>{
         if (res.ok) {
           this.$refs.list.updateList();
