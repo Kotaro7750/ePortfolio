@@ -3,10 +3,10 @@ import BootstrapVue from 'bootstrap-vue'
 import Router from 'vue-router'
 import firebase from 'firebase'
 
-import HelloWorld from '@/components/HelloWorld'
 import SignIn from '@/components/auth/SignIn'
 import Ticker from '@/components/ticker/Ticker'
 import Purchase from '@/components/purchase/Purchase'
+import Asset from '@/components/share/Asset'
 
 Vue.use(Router)
 Vue.use(BootstrapVue)
@@ -19,8 +19,8 @@ let router = new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      name: 'Asset',
+      component: Asset,
       meta: { requiresAuth: true }
     },
     {
