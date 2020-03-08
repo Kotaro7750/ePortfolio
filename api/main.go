@@ -39,11 +39,17 @@ func main() {
 	router.Use(cors.New(config))
 
 	tickerCtl := controller.TickerCtl{DB: db}
+	purchaseCtl := controller.PurchaseCtl{DB: db}
 
 	router.GET("/ticker", auth.AuthMiddleWare(), tickerCtl.GetList)
 	router.POST("/ticker", auth.AuthMiddleWare(), tickerCtl.Add)
 	router.PUT("/ticker/:id", auth.AuthMiddleWare(), tickerCtl.Update)
 	router.DELETE("/ticker/:id", auth.AuthMiddleWare(), tickerCtl.Delete)
+
+	router.GET("/purchase", auth.AuthMiddleWare(), purchaseCtl.GetList)
+	router.POST("/purchase", auth.AuthMiddleWare(), purchaseCtl.Add)
+	router.PUT("/purchase/:id", auth.AuthMiddleWare(), purchaseCtl.Update)
+	router.DELETE("/purchase/:id", auth.AuthMiddleWare(), purchaseCtl.Delete)
 
 	Port := os.Getenv("PORT")
 	router.Run(":" + Port)

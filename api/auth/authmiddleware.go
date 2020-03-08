@@ -56,6 +56,7 @@ func AuthMiddleWare() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
+
 		if authorizationHeader[:7] != "Bearer " {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": "not Bearer",
