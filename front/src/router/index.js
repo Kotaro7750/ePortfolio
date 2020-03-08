@@ -6,6 +6,7 @@ import firebase from 'firebase'
 import HelloWorld from '@/components/HelloWorld'
 import SignIn from '@/components/auth/SignIn'
 import Ticker from '@/components/ticker/Ticker'
+import Purchase from '@/components/purchase/Purchase'
 
 Vue.use(Router)
 Vue.use(BootstrapVue)
@@ -31,6 +32,12 @@ let router = new Router({
       path: '/ticker',
       name: 'Ticker',
       component: Ticker,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/purchase',
+      name: 'Purchase',
+      component: Purchase,
       meta: { requiresAuth: true }
     },
   ],

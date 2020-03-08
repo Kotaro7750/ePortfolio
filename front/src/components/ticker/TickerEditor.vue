@@ -19,7 +19,7 @@ export default {
       return {
           ticker:this.edittedTicker,
           dividened:''
-        }
+      }
   },
   methods:{
     dispatch(){
