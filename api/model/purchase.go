@@ -18,7 +18,7 @@ type Purchase struct {
 
 func GetPurchaseList(db *sql.DB) ([]Purchase, error) {
 	rows, err := db.Query(
-		"SELECT purchase_history.id, ticker.ticker, purchase_history.date, purchase_history.share, purchase_history.cost FROM purchase_history INNER JOIN ticker ON purchase_history.ticker_id = ticker.id")
+		"SELECT purchase_history.id, ticker.id,ticker.ticker, purchase_history.date, purchase_history.share, purchase_history.cost FROM purchase_history INNER JOIN ticker ON purchase_history.ticker_id = ticker.id")
 
 	if err != nil {
 		log.Fatal(err)
@@ -29,7 +29,7 @@ func GetPurchaseList(db *sql.DB) ([]Purchase, error) {
 
 	for rows.Next() {
 		var purchase Purchase
-		if err := rows.Scan(&purchase.Id, &purchase.Ticker, &purchase.Date, &purchase.Share, &purchase.Cost); err != nil {
+		if err := rows.Scan(&purchase.Id, &purchase.TickerId, &purchase.Ticker, &purchase.Date, &purchase.Share, &purchase.Cost); err != nil {
 			log.Printf("Query Error: %s", err.Error())
 			return nil, err
 		}
