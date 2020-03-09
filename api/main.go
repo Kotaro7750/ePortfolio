@@ -52,7 +52,7 @@ func main() {
 	router.PUT("/purchase/:id", auth.AuthMiddleWare(), purchaseCtl.Update)
 	router.DELETE("/purchase/:id", auth.AuthMiddleWare(), purchaseCtl.Delete)
 
-	router.GET("/share", shareCtl.GetList)
+	router.GET("/share", auth.AuthMiddleWare(), shareCtl.GetList)
 
 	Port := os.Getenv("PORT")
 	router.Run(":" + Port)
