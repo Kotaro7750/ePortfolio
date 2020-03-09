@@ -1,10 +1,7 @@
 <template>
   <div>
-    <ul type="circle">
-      <li v-for="share in share_list" :key=share.id>
-        {{share.ticker}}:{{share.amount}}株:配当 {{share.dividened}}$:総額{{share.total_cost}}$:平均取得金額{{share.mean_cost}}$
-      </li>
-    </ul>
+    <b-table :items="share_list" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc">
+    </b-table>
     <div>
       配当総額 {{totalDividened}}$
     </div>
@@ -18,6 +15,15 @@ export default {
   data: function(){
     return {
       share_list:function () {return [];},
+      fields: [
+          { key: 'ticker', sortable: true },
+          { key: 'amount', sortable: true },
+          { key: 'total_cost', sortable: true },
+          { key: 'mean_cost', sortable: true },
+          { key: 'dividened', sortable: true },
+        ],
+      sortBy: 'ticker',
+      sortDesc: true,
     }
   },
 
