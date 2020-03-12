@@ -1,10 +1,7 @@
 <template>
   <div>
-    <b-table :items="share_list" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc">
+    <b-table responsive :items="share_list_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" >
     </b-table>
-    <div>
-      配当総額 {{totalDividened}}$
-    </div>
   </div>
 </template>
 
@@ -21,6 +18,7 @@ export default {
           { key: 'total_cost', sortable: true },
           { key: 'mean_cost', sortable: true },
           { key: 'dividened', sortable: true },
+          { key: 'dividened_yield', sortable: true },
         ],
       sortBy: 'ticker',
       sortDesc: true,
@@ -37,6 +35,39 @@ export default {
         total = total + Number(this.share_list[i].dividened);
       }
       return total;
+    },
+    share_list_table: function () {
+      let ret = [];
+      let total_amount=0;
+      let total_total_cost=0;
+      let total_dividened=0;
+      for (let i in this.share_list) {
+        total_amount += this.share_list[i].amount;
+        total_total_cost += this.share_list[i].total_cost;
+        total_dividened += this.share_list[i].dividened;
+
+        ret.push({
+          ticker:this.share_list[i].ticker,
+          amount:this.share_list[i].amount,
+          total_cost:this.share_list[i].total_cost,
+          mean_cost:this.share_list[i].mean_cost,
+          dividened:this.share_list[i].dividened,
+          dividened_yield:(this.share_list[i].dividened / this.share_list[i].total_cost).toFixed(3),
+        });
+      }
+
+      
+      ret.push({
+        ticker:"ALL",
+        amount:total_amount,
+        total_cost:total_total_cost,
+        mean_cost:(total_total_cost/total_amount).toFixed(3),
+        dividened:total_dividened,
+        dividened_yield:(total_dividened/total_total_cost).toFixed(3),
+        _rowVariant:'info',
+        _sortable:false,
+      });
+      return ret;
     }
   },
 

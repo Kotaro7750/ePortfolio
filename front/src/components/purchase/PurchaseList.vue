@@ -1,7 +1,7 @@
 <template>
   <div>
     <h4>一覧</h4>
-    <b-table :items="purchase_history_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc">
+    <b-table responsive :items="purchase_history_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc">
       <template v-slot:cell(action)="row">
         <b-button size="sm" @click="modalEdit(row.item)" class="mr-2" variant="warning">編集</b-button>
         <b-button size="sm" @click="modalDelete(row.item.id)" class="mr-2" variant="danger">削除</b-button>
