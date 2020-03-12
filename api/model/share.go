@@ -2,7 +2,9 @@ package model
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
+	"strconv"
 )
 
 type Share struct {
@@ -66,6 +68,7 @@ func GetShareList(db *sql.DB) ([]Share, error) {
 	for id, obj := range tmp {
 		totalDividened := obj.dividened * float64(obj.amount)
 		meanCost := obj.totalCost / float64(obj.amount)
+		meanCost, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", meanCost), 64)
 
 		shares = append(shares, Share{Id: id, Ticker: obj.ticker, Amount: obj.amount, Dividened: totalDividened, TotalCost: obj.totalCost, MeanCost: meanCost})
 	}
