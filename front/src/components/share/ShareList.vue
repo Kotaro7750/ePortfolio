@@ -60,7 +60,7 @@ export default {
           total_cost:this.share_list[i].total_cost,
           mean_cost:this.share_list[i].mean_cost,
           dividened:this.share_list[i].dividened.toFixed(3),
-          dividened_yield:(this.share_list[i].dividened / this.share_list[i].total_cost).toFixed(3),
+          dividened_yield:(this.share_list[i].dividened / this.share_list[i].total_cost).toFixed(4)*100,
         });
       }
 
