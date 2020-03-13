@@ -68,7 +68,7 @@ export default {
       ret.push({
         ticker:"ALL",
         amount:total_amount,
-        total_cost:total_total_cost,
+        total_cost:total_total_cost.toFixed(3),
         mean_cost:(total_total_cost/total_amount).toFixed(3),
         dividened:total_dividened.toFixed(3),
         dividened_yield:((total_dividened/total_total_cost)*100).toFixed(3),
