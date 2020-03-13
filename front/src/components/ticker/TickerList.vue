@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h4>一覧</h4>
     <Loading v-if="isLoading"/>
     <b-table v-else responsive :items="ticker_list" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc">
       <template v-slot:cell(action)="row">
@@ -48,7 +47,7 @@ export default {
       fields: [
           { key: 'ticker', sortable: true },
           { key: 'dividened', sortable: true },
-          { key: 'action', sortable: false }
+          { key: 'action',label:"", sortable: false }
         ],
       sortBy: 'date',
       sortDesc: true,

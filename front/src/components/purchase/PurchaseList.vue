@@ -59,7 +59,7 @@ export default {
           { key: 'ticker', sortable: true },
           { key: 'share', sortable: true },
           { key: 'cost', sortable: true },
-          { key: 'action', sortable: false }
+          { key: 'action',label:"", sortable: false }
         ],
       sortBy: 'date',
       sortDesc: true,
