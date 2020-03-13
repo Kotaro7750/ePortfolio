@@ -2,29 +2,37 @@
   <div>
     <h4>一覧</h4>
     <Loading v-if="isLoading"/>
-    <ul type="circle" v-else>
-      <li v-for="ticker in ticker_list" :key=ticker.id>
-        {{ticker.ticker}}:{{ticker.dividened}}
-        <button @click="openEditor(ticker.id)" v-if="edittingID != ticker.id">編集</button>
-        <button @click="closeEditor()" v-else>閉じる</button>
-        <button @click="deleteTicker(ticker.id)">削除</button>
+    <b-table v-else responsive :items="ticker_list" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc">
+      <template v-slot:cell(action)="row">
+        <b-button size="sm" @click="modalEdit(row.item)" class="mr-2" variant="warning">
+          <b-icon-pencil></b-icon-pencil>
+        </b-button>
+        <b-button size="sm" @click="modalDelete(row.item.id)" class="mr-2" variant="danger">
+          <b-icon-trash></b-icon-trash>
+        </b-button>
+      </template>
+    </b-table>
 
-        <TickerEditor :edittedTicker="ticker.ticker" :isEdit="true" :message="`更新`" v-if="edittingID==ticker.id" @dispatch="updateTicker"/>
-      </li>
-    </ul>
+    <b-modal id="modal-edit" centered title="ティッカー編集" @ok="updateTicker">
+      <b-form-group label="Dividened">
+        <b-form-input type="number" v-model="edittingDividened"></b-form-input>
+      </b-form-group>
+    </b-modal>
+
+    <b-modal id="modal-delete" centered title="以下の履歴を削除していいですか？" @ok="deleteTicker">
+      <p class="my-4">削除していいですか？</p>
+    </b-modal>
 
   </div>
 </template>
 
 <script>
-import  TickerEditor  from "@/components/ticker/TickerEditor.vue";
 import  Loading  from "@/components/Loading.vue";
 import firebase from 'firebase';
 
 export default {
   name: 'TickerList',
   components:{
-    TickerEditor,
     Loading,
   },
 
@@ -33,6 +41,17 @@ export default {
       isLoading:true,
       ticker_list:function () {return [];},
       edittingID:-1,
+      edittingTicker:"",
+      edittingDividened:0,
+
+      deletedID:-1,
+      fields: [
+          { key: 'ticker', sortable: true },
+          { key: 'dividened', sortable: true },
+          { key: 'action', sortable: false }
+        ],
+      sortBy: 'date',
+      sortDesc: true,
     }
   },
 
@@ -41,6 +60,18 @@ export default {
   },
 
   methods:{
+    modalDelete(id) {
+      this.deletedID = id;
+      this.$bvModal.show('modal-delete');
+    },
+
+    modalEdit(item) {
+      this.edittingID = item.id;
+      this.edittingTicker = item.ticker;
+      this.edittingDividened = item.dividened;
+      this.$bvModal.show('modal-edit');
+    },
+
     updateList(){
       this.isLoading = true;
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
@@ -71,9 +102,9 @@ export default {
 
     },
 
-    deleteTicker(id){
+    deleteTicker(){
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-        let url = process.env.VUE_APP_API_URL + '/ticker/' + String(id);
+        let url = process.env.VUE_APP_API_URL + '/ticker/' + String(this.deletedID);
 
         return fetch(url,{
           method:'DELETE',
@@ -81,7 +112,7 @@ export default {
               'Authorization': `Bearer ${idToken}`,
           },
         })
-      }).then(res =>{
+      }.bind(this)).then(res =>{
         if (res.ok) {
           this.updateList();
           alert("success");
@@ -95,7 +126,7 @@ export default {
 
     },
 
-    updateTicker(input){
+    updateTicker(){
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
         let url = process.env.VUE_APP_API_URL + '/ticker/' + String(this.edittingID);
 
@@ -105,7 +136,7 @@ export default {
               "Content-Type": "application/json",
               'Authorization': `Bearer ${idToken}`,
           },
-          body: JSON.stringify({id:this.edittingID,ticker:input.ticker,dividened:Number(input.dividened)}),
+          body: JSON.stringify({id:this.edittingID,ticker:this.edittingTicker,dividened:Number(this.edittingDividened)}),
 
         })
       }.bind(this)).then(res =>{
