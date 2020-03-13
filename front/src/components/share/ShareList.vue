@@ -60,7 +60,7 @@ export default {
           total_cost:this.share_list[i].total_cost,
           mean_cost:this.share_list[i].mean_cost,
           dividened:this.share_list[i].dividened.toFixed(3),
-          dividened_yield:(this.share_list[i].dividened / this.share_list[i].total_cost).toFixed(4)*100,
+          dividened_yield:((this.share_list[i].dividened / this.share_list[i].total_cost)*100).toFixed(3),
         });
       }
 
@@ -71,7 +71,7 @@ export default {
         total_cost:total_total_cost,
         mean_cost:(total_total_cost/total_amount).toFixed(3),
         dividened:total_dividened.toFixed(3),
-        dividened_yield:(total_dividened/total_total_cost).toFixed(4)*100,
+        dividened_yield:((total_dividened/total_total_cost)*100).toFixed(3),
         _rowVariant:'info',
       });
       return ret;
