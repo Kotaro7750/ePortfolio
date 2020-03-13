@@ -4,8 +4,12 @@
     <Loading v-if="isLoading"/>
     <b-table v-else responsive :items="purchase_history_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc">
       <template v-slot:cell(action)="row">
-        <b-button size="sm" @click="modalEdit(row.item)" class="mr-2" variant="warning">編集</b-button>
-        <b-button size="sm" @click="modalDelete(row.item.id)" class="mr-2" variant="danger">削除</b-button>
+        <b-button size="sm" @click="modalEdit(row.item)" class="mr-2" variant="warning">
+          <b-icon-pencil></b-icon-pencil>
+        </b-button>
+        <b-button size="sm" @click="modalDelete(row.item.id)" class="mr-2" variant="danger">
+          <b-icon-trash></b-icon-trash>
+        </b-button>
       </template>
     </b-table>
 
