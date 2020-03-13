@@ -1,7 +1,8 @@
 <template>
   <div>
     <h4>一覧</h4>
-    <ul type="circle">
+    <Loading v-if="isLoading"/>
+    <ul type="circle" v-else>
       <li v-for="ticker in ticker_list" :key=ticker.id>
         {{ticker.ticker}}:{{ticker.dividened}}
         <button @click="openEditor(ticker.id)" v-if="edittingID != ticker.id">編集</button>
@@ -17,16 +18,19 @@
 
 <script>
 import  TickerEditor  from "@/components/ticker/TickerEditor.vue";
+import  Loading  from "@/components/Loading.vue";
 import firebase from 'firebase';
 
 export default {
   name: 'TickerList',
   components:{
     TickerEditor,
+    Loading,
   },
 
   data: function(){
     return {
+      isLoading:true,
       ticker_list:function () {return [];},
       edittingID:-1,
     }
@@ -38,6 +42,7 @@ export default {
 
   methods:{
     updateList(){
+      this.isLoading = true;
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
         let url = process.env.VUE_APP_API_URL + '/ticker'
 
@@ -50,6 +55,7 @@ export default {
         })
       }).then(res =>{
         if (res.ok) {
+          this.isLoading = false;
           return res.json();
         } else {
           return Promise.reject(new Error(`${res.status}: ${res.statusText}`));

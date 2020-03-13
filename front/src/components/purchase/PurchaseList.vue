@@ -1,7 +1,8 @@
 <template>
   <div>
     <h4>一覧</h4>
-    <b-table responsive :items="purchase_history_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc">
+    <Loading v-if="isLoading"/>
+    <b-table v-else responsive :items="purchase_history_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc">
       <template v-slot:cell(action)="row">
         <b-button size="sm" @click="modalEdit(row.item)" class="mr-2" variant="warning">編集</b-button>
         <b-button size="sm" @click="modalDelete(row.item.id)" class="mr-2" variant="danger">削除</b-button>
@@ -30,12 +31,17 @@
 
 <script>
 import firebase from 'firebase';
+import  Loading  from "@/components/Loading.vue";
 
 export default {
   name: 'PurchaseList',
+  components:{
+    Loading,
+  },
 
   data: function(){
     return {
+      isLoading:true,
       purchase_history_list:function () {return [];},
 
       edittingID:-1,
@@ -93,6 +99,7 @@ export default {
     },
 
     updateList(){
+      this.isLoading = true;
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
         let url = process.env.VUE_APP_API_URL + '/purchase'
 
@@ -105,6 +112,7 @@ export default {
         })
       }).then(res =>{
         if (res.ok) {
+          this.isLoading = false;
           return res.json();
         } else {
           return Promise.reject(new Error(`${res.status}: ${res.statusText}`));

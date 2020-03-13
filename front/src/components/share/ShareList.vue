@@ -1,16 +1,24 @@
 <template>
   <div>
-    <b-table responsive :items="share_list_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" >
+    <Loading v-if="isLoading"/>
+    <b-table v-else responsive :items="share_list_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" >
     </b-table>
   </div>
+  
 </template>
 
 <script>
 import firebase from 'firebase';
+import  Loading  from "@/components/Loading.vue";
+
 export default {
   name :'ShareList',
+  components:{
+    Loading,
+  },
   data: function(){
     return {
+      isLoading:true,
       share_list:function () {return [];},
       fields: [
           { key: 'ticker', sortable: true },
@@ -72,6 +80,7 @@ export default {
 
   methods:{
     updateList(){
+      this.isLoading=true;
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
         let url = process.env.VUE_APP_API_URL + '/share'
 
@@ -84,6 +93,7 @@ export default {
         })
       }).then(res =>{
         if (res.ok) {
+          this.isLoading=false;
           return res.json();
         } else {
           return Promise.reject(new Error(`${res.status}: ${res.statusText}`));
