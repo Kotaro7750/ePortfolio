@@ -1,5 +1,7 @@
 <template>
-  <b-form-select v-model="selected_ticker" :options="list"/>
+  <b-form-group label="Ticker">
+    <b-form-select :value="selected_ticker" @input="$emit('input',$event)" :options="list"/>
+  </b-form-group>
 </template>
 
 <script>
@@ -7,10 +9,12 @@ import firebase from 'firebase';
 
 export default {
   name: 'TickerSelector',
+  props: {
+    selected_ticker:Number,
+  },
   data: function () {
       return {
           ticker_list:function () {return [];},
-          selected_ticker:'',
         }
   },
 
