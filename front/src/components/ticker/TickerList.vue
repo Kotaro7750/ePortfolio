@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loading v-if="isLoading"/>
-    <b-table v-else responsive :items="ticker_list" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc">
+    <b-table v-else responsive hover :items="ticker_list" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @row-clicked="tickerDetail">
       <template v-slot:cell(action)="row">
         <b-button size="sm" @click="modalEdit(row.item)" class="mr-2" variant="warning">
           <b-icon-pencil></b-icon-pencil>
@@ -59,6 +59,10 @@ export default {
   },
 
   methods:{
+    tickerDetail(row){
+      this.$router.push({name:'TickerDetail' ,params: {id:row.id}});
+    },
+
     modalDelete(id) {
       this.deletedID = id;
       this.$bvModal.show('modal-delete');
