@@ -67,7 +67,7 @@ func AuthMiddleWare() gin.HandlerFunc {
 
 		tokenString := authorizationHeader[7:]
 
-		token, err := firebaseClient.VerifyIDToken(context.Background(), tokenString)
+		_, err = firebaseClient.VerifyIDToken(context.Background(), tokenString)
 		if err != nil {
 			log.Printf("error verifying ID token: %v\n", err)
 			c.JSON(http.StatusForbidden, gin.H{
@@ -77,7 +77,6 @@ func AuthMiddleWare() gin.HandlerFunc {
 			return
 		}
 
-		log.Printf("Verified ID token: %v\n", token)
 		c.Next()
 	}
 }
