@@ -60,7 +60,7 @@ export default {
 
   methods:{
     tickerDetail(row){
-      this.$router.push({name:'TickerDetail' ,params: {id:row.id}});
+      this.$router.push({name:'TickerDetail' ,params: {id:row.id,ticker:row.ticker}});
     },
 
     modalDelete(id) {

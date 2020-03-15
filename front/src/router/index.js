@@ -5,6 +5,7 @@ import firebase from 'firebase'
 
 import SignIn from '@/components/auth/SignIn'
 import Ticker from '@/components/ticker/Ticker'
+import TickerDetail from '@/components/ticker_detail/TickerDetail'
 import Purchase from '@/components/purchase/Purchase'
 import Asset from '@/components/share/Asset'
 
@@ -32,6 +33,12 @@ let router = new Router({
       path: '/ticker',
       name: 'Ticker',
       component: Ticker,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/ticker_detail/:id',
+      name: 'TickerDetail',
+      component: TickerDetail,
       meta: { requiresAuth: true }
     },
     {
