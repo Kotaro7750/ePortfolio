@@ -1,14 +1,22 @@
 <template>
   <div>
     <h3>ティッカー</h3>
-    <b-container fluid>
-        <b-col cols="1">
-          <b-button variant="success" v-b-modal.modal-add>
-            <b-icon-plus></b-icon-plus>
-          </b-button>
-        </b-col>
-    </b-container>
-    <TickerList ref="list"/>
+
+    <b-button-toolbar aria-label="Toolbar with button groups and input groups">
+
+      <b-button-group class="mr-1">
+        <b-button variant="success" v-b-modal.modal-add>
+          <b-icon-plus></b-icon-plus>
+        </b-button>
+      </b-button-group>
+
+      <b-input-group  prepend="目標利回り" >
+        <b-form-input type="number" v-model="hopedYield"></b-form-input>
+      </b-input-group>
+
+    </b-button-toolbar>
+
+    <TickerList ref="list" :yield="Number(hopedYield)"/>
 
     <b-modal centered id="modal-add" title="Add Ticker" @show="resetModal" @ok="addTicker">
       <b-form-group label="Ticker">
@@ -34,6 +42,7 @@ export default {
     return {
       addedTicker:"",
       addedDividened:0,
+      hopedYield:3,
     }
   },
 

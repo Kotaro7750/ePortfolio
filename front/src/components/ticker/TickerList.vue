@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loading v-if="isLoading"/>
-    <b-table v-else responsive hover :items="ticker_list" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @row-clicked="tickerDetail">
+    <b-table v-else responsive hover :items="ticker_list_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @row-clicked="tickerDetail">
       <template v-slot:cell(action)="row">
         <b-button size="sm" @click="modalEdit(row.item)" class="mr-2" variant="warning">
           <b-icon-pencil></b-icon-pencil>
@@ -34,6 +34,9 @@ export default {
   components:{
     Loading,
   },
+  props: {
+    yield:Number,
+  },
 
   data: function(){
     return {
@@ -47,6 +50,7 @@ export default {
       fields: [
           { key: 'ticker', sortable: true },
           { key: 'dividened', sortable: true },
+          { key: 'expected_price', sortable: false },
           { key: 'action',label:"", sortable: false }
         ],
       sortBy: 'date',
@@ -56,6 +60,21 @@ export default {
 
   created(){
     this.updateList();
+  },
+
+  computed: {
+    ticker_list_table: function () {
+      let ret = []
+      for (let i in this.ticker_list) {
+        ret.push({
+          id:this.ticker_list[i].id,
+          ticker:this.ticker_list[i].ticker,
+          dividened:this.ticker_list[i].dividened,
+          expected_price:(this.ticker_list[i].dividened*100/this.yield).toFixed(2),
+        })
+      }
+      return ret
+    },
   },
 
   methods:{

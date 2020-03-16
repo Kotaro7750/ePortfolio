@@ -12,17 +12,20 @@
           <b-button @click="stepQuater(false)">&lsaquo;</b-button>
         </b-button-group>
 
-        <b-button-group class="mx-1">
+        <b-button-group class="mx-1 w-25">
           <b-form-input type="number" v-model="year"></b-form-input>
-          <b-button @click="quarter=1" :variant="activeVariant(1)">Q1</b-button>
-          <b-button @click="quarter=2" :variant="activeVariant(2)">Q2</b-button>
-          <b-button @click="quarter=3" :variant="activeVariant(3)">Q3</b-button>
-          <b-button @click="quarter=4" :variant="activeVariant(4)">Q4</b-button>
         </b-button-group>
 
         <b-button-group class="mx-1">
           <b-button @click="stepQuater(true)">&rsaquo;</b-button>
           <b-button @click="year=year+1">&raquo;</b-button>
+        </b-button-group>
+
+        <b-button-group class="mx-1">
+          <b-button @click="quarter=1" :variant="activeVariant(1)">Q1</b-button>
+          <b-button @click="quarter=2" :variant="activeVariant(2)">Q2</b-button>
+          <b-button @click="quarter=3" :variant="activeVariant(3)">Q3</b-button>
+          <b-button @click="quarter=4" :variant="activeVariant(4)">Q4</b-button>
         </b-button-group>
 
         </b-button-toolbar>
