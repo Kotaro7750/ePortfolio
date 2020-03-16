@@ -5,15 +5,27 @@
       <b-tab title="概要">
       </b-tab>
       <b-tab active title="決算">
-        <b-input-group>
+        <b-button-toolbar key-nav>
+
+        <b-button-group class="mx-1">
+          <b-button @click="year=year-1">&laquo;</b-button>
+          <b-button @click="stepQuater(false)">&lsaquo;</b-button>
+        </b-button-group>
+
+        <b-button-group class="mx-1">
           <b-form-input type="number" v-model="year"></b-form-input>
-          <b-button-group>
-            <b-button @click="quarter=1" :variant="activeVariant(1)">Q1</b-button>
-            <b-button @click="quarter=2" :variant="activeVariant(2)">Q2</b-button>
-            <b-button @click="quarter=3" :variant="activeVariant(3)">Q3</b-button>
-            <b-button @click="quarter=4" :variant="activeVariant(4)">Q4</b-button>
-          </b-button-group>
-        </b-input-group>
+          <b-button @click="quarter=1" :variant="activeVariant(1)">Q1</b-button>
+          <b-button @click="quarter=2" :variant="activeVariant(2)">Q2</b-button>
+          <b-button @click="quarter=3" :variant="activeVariant(3)">Q3</b-button>
+          <b-button @click="quarter=4" :variant="activeVariant(4)">Q4</b-button>
+        </b-button-group>
+
+        <b-button-group class="mx-1">
+          <b-button @click="stepQuater(true)">&rsaquo;</b-button>
+          <b-button @click="year=year+1">&raquo;</b-button>
+        </b-button-group>
+
+        </b-button-toolbar>
 
         <FinancialReport :ticker_id="Number($route.params.id)" :ticker="$route.params.ticker" :year="Number(year)" :quarter="Number(quarter)"/>
       </b-tab>
@@ -49,6 +61,24 @@ export default {
         return "success";
       }else{
         return "";
+      }
+    },
+
+    stepQuater(isNext){
+      if (isNext) {
+        if (this.quarter == 4) {
+          this.quarter = 1;
+          this.year = this.year + 1;
+        }else{
+          this.quarter = this.quarter + 1;
+        }
+      }else {
+        if (this.quarter == 1) {
+          this.quarter = 4;
+          this.year = this.year - 1;
+        }else{
+          this.quarter = this.quarter - 1;
+        }
       }
     },
   },
