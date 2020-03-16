@@ -19,11 +19,12 @@
     <TickerList ref="list" :yield="Number(hopedYield)"/>
 
     <b-modal centered id="modal-add" title="Add Ticker" @show="resetModal" @ok="addTicker">
+      <SectorSelector :value="addedTicker.sector" @input="addedTicker.sector = $event"/>
       <b-form-group label="Ticker">
-        <b-form-input type="text" v-model="addedTicker"></b-form-input>
+        <b-form-input type="text" v-model="addedTicker.ticker"></b-form-input>
       </b-form-group>
       <b-form-group label="Dividened">
-        <b-form-input type="number" v-model="addedDividened"></b-form-input>
+        <b-form-input type="number" v-model="addedTicker.dividened"></b-form-input>
       </b-form-group>
     </b-modal>
   </div>
@@ -31,25 +32,31 @@
 
 <script>
 import  TickerList  from "@/components/ticker/TickerList.vue";
-import firebase from 'firebase';
+import  SectorSelector  from "@/components/SectorSelector.vue";
+import firebase from 'firebase/app';
 
 export default {
   name:'Ticker',
   components:{
     TickerList,
+    SectorSelector,
   },
   data: function(){
     return {
-      addedTicker:"",
-      addedDividened:0,
+      addedTicker:{
+        ticker:"",
+        dividened:0,
+        sector:0,
+      },
       hopedYield:3,
     }
   },
 
   methods:{
     resetModal() {
-        this.addedTicker = '';
-        this.addedDividened = 0;
+        this.addedTicker.ticker = '';
+        this.addedTicker.dividened = 0;
+        this.addedTicker.sector = 0;
       },
     addTicker(){
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
@@ -61,7 +68,7 @@ export default {
               "Content-Type": "application/json",
               'Authorization': `Bearer ${idToken}`,
           },
-          body: JSON.stringify({ticker:this.addedTicker,dividened:Number(this.addedDividened)}),
+          body: JSON.stringify({ticker:this.addedTicker.ticker, dividened:Number(this.addedTicker.dividened), sector_id:this.addedTicker.sector}),
 
         })
       }.bind(this)).then(res =>{

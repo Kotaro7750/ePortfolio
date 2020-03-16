@@ -13,8 +13,9 @@
     </b-table>
 
     <b-modal id="modal-edit" centered title="ティッカー編集" @ok="updateTicker">
+      <SectorSelector :selected_sector="edittingTicker.sector" :value="edittingTicker.sector" @input="edittingTicker.sector = $event"/>
       <b-form-group label="Dividened">
-        <b-form-input type="number" v-model="edittingDividened"></b-form-input>
+        <b-form-input type="number" v-model="edittingTicker.dividened"></b-form-input>
       </b-form-group>
     </b-modal>
 
@@ -27,12 +28,14 @@
 
 <script>
 import  Loading  from "@/components/Loading.vue";
-import firebase from 'firebase';
+import  SectorSelector  from "@/components/SectorSelector.vue";
+import firebase from 'firebase/app';
 
 export default {
   name: 'TickerList',
   components:{
     Loading,
+    SectorSelector,
   },
   props: {
     yield:Number,
@@ -42,13 +45,17 @@ export default {
     return {
       isLoading:true,
       ticker_list:function () {return [];},
-      edittingID:-1,
-      edittingTicker:"",
-      edittingDividened:0,
+      edittingTicker:{
+        id:-1,
+        ticker:"",
+        dividened:0,
+        sector:0,
+      },
 
       deletedID:-1,
       fields: [
           { key: 'ticker', sortable: true },
+          { key: 'sector', sortable: true },
           { key: 'dividened', sortable: true },
           { key: 'expected_price', sortable: false },
           { key: 'action',label:"", sortable: false }
@@ -70,6 +77,8 @@ export default {
           id:this.ticker_list[i].id,
           ticker:this.ticker_list[i].ticker,
           dividened:this.ticker_list[i].dividened,
+          sector:this.ticker_list[i].sector,
+          sector_id:this.ticker_list[i].sector_id,
           expected_price:(this.ticker_list[i].dividened*100/this.yield).toFixed(2),
         })
       }
@@ -88,9 +97,10 @@ export default {
     },
 
     modalEdit(item) {
-      this.edittingID = item.id;
-      this.edittingTicker = item.ticker;
-      this.edittingDividened = item.dividened;
+      this.edittingTicker.id = item.id;
+      this.edittingTicker.ticker = item.ticker;
+      this.edittingTicker.dividened = item.dividened;
+      this.edittingTicker.sector = item.sector_id;
       this.$bvModal.show('modal-edit');
     },
 
@@ -150,7 +160,7 @@ export default {
 
     updateTicker(){
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-        let url = process.env.VUE_APP_API_URL + '/ticker/' + String(this.edittingID);
+        let url = process.env.VUE_APP_API_URL + '/ticker/' + String(this.edittingTicker.id);
 
         return fetch(url,{
           method:'PUT',
@@ -158,7 +168,13 @@ export default {
               "Content-Type": "application/json",
               'Authorization': `Bearer ${idToken}`,
           },
-          body: JSON.stringify({id:this.edittingID,ticker:this.edittingTicker,dividened:Number(this.edittingDividened)}),
+          body: JSON.stringify(
+          {
+            id:this.edittingTicker.id,
+            ticker:this.edittingTicker.ticker,
+            dividened:Number(this.edittingTicker.dividened),
+            sector_id:this.edittingTicker.sector
+          }),
 
         })
       }.bind(this)).then(res =>{
@@ -176,11 +192,11 @@ export default {
     },
 
     openEditor(id){
-      this.edittingID = id;
+      this.edittingTicker.id = id;
     },
 
     closeEditor(){
-      this.edittingID = -1;
+      this.edittingTicker.id = -1;
     },
   }
 }

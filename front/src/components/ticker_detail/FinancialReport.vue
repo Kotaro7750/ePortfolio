@@ -29,7 +29,7 @@
 
 <script>
 import marked from "marked";
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import  Loading  from "@/components/Loading.vue";
 import  FinancialReportMD  from "@/components/ticker_detail/FinancialReportMD.vue";
 

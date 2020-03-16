@@ -30,7 +30,7 @@
 <script>
 import  PurchaseList  from "@/components/purchase/PurchaseList.vue";
 import  TickerSelector  from "@/components/ticker/TickerSelector.vue";
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 export default {
   name:'Purchase',

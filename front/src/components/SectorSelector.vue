@@ -1,6 +1,6 @@
 <template>
-  <b-form-group label="Ticker">
-    <b-form-select :value="selected_ticker" @input="$emit('input',$event)" :options="list"/>
+  <b-form-group label="Sector">
+    <b-form-select :value="selected_sector" @input="$emit('input',$event)" :options="list"/>
   </b-form-group>
 </template>
 
@@ -8,13 +8,13 @@
 import firebase from 'firebase/app';
 
 export default {
-  name: 'TickerSelector',
+  name: 'SectorSelector',
   props: {
-    selected_ticker:Number,
+    selected_sector:Number,
   },
   data: function () {
       return {
-          ticker_list:function () {return [];},
+          sector_list:function () {return [];},
         }
   },
 
@@ -24,10 +24,10 @@ export default {
   computed:{
     list(){
       let ret = [];
-      for (let i in this.ticker_list) {
+      for (let i in this.sector_list) {
         ret.push({
-          value:this.ticker_list[i].id,
-          text:this.ticker_list[i].ticker,
+          value:this.sector_list[i].id,
+          text:this.sector_list[i].sector,
         });
       }
         return ret;
@@ -37,7 +37,7 @@ export default {
   methods: {
     updateList(){
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-        let url = process.env.VUE_APP_API_URL + '/ticker'
+        let url = process.env.VUE_APP_API_URL + '/sector'
 
         return fetch(url,{
           method:'GET',
@@ -55,7 +55,7 @@ export default {
 
       }).then(json =>{
         //JSON.parseにしないとプロミスが解決されないで謎配列が入ってしまう
-        this.ticker_list = JSON.parse(json.result);
+        this.sector_list = JSON.parse(json.result);
 
       }).catch(err =>{
         alert(err);
