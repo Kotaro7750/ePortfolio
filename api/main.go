@@ -42,6 +42,7 @@ func main() {
 	purchaseCtl := controller.PurchaseCtl{DB: db}
 	shareCtl := controller.ShareCtl{DB: db}
 	financialReportCtl := controller.FinancialReportCtl{DB: db}
+	sectorCtl := controller.SectorCtl{DB: db}
 
 	router.GET("/ticker", auth.AuthMiddleWare(), tickerCtl.GetList)
 	router.POST("/ticker", auth.AuthMiddleWare(), tickerCtl.Add)
@@ -59,6 +60,8 @@ func main() {
 	router.GET("/financial_report/:year/:quarter/:ticker_id", auth.AuthMiddleWare(), financialReportCtl.GetURL)
 	router.POST("/financial_report", auth.AuthMiddleWare(), financialReportCtl.Add)
 	router.PUT("/financial_report", auth.AuthMiddleWare(), financialReportCtl.Update)
+
+	router.GET("/sector", auth.AuthMiddleWare(), sectorCtl.GetList)
 
 	Port := os.Getenv("PORT")
 	router.Run(":" + Port)

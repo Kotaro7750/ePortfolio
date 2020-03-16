@@ -11,10 +11,12 @@ type Ticker struct {
 	Id        int     `json:"id"`
 	Ticker    string  `json:"ticker"`
 	Dividened float64 `json:"dividened"`
+	SectorId  int     `json:"sector_id"`
+	Sector    string  `json:"sector"`
 }
 
 func GetTickerList(db *sql.DB) ([]Ticker, error) {
-	rows, err := db.Query("SELECT id,ticker,dividened FROM ticker")
+	rows, err := db.Query("SELECT ticker.id, ticker.ticker,ticker.dividened,ticker.sector,sector.sector FROM ticker INNER JOIN sector ON ticker.sector = sector.id")
 
 	if err != nil {
 		log.Fatal(err)
@@ -25,7 +27,7 @@ func GetTickerList(db *sql.DB) ([]Ticker, error) {
 
 	for rows.Next() {
 		var ticker Ticker
-		if err := rows.Scan(&ticker.Id, &ticker.Ticker, &ticker.Dividened); err != nil {
+		if err := rows.Scan(&ticker.Id, &ticker.Ticker, &ticker.Dividened, &ticker.SectorId, &ticker.Sector); err != nil {
 			log.Printf("Query Error: %s", err.Error())
 			return nil, err
 		}
@@ -40,13 +42,13 @@ func GetTickerList(db *sql.DB) ([]Ticker, error) {
 }
 
 func AddTicker(db *sql.DB, t Ticker) error {
-	ins, err := db.Prepare("INSERT INTO ticker (ticker,dividened) VALUES ($1,$2)")
+	ins, err := db.Prepare("INSERT INTO ticker (ticker,dividened,sector) VALUES ($1,$2,$3)")
 	if err != nil {
 		log.Printf("Query Error: %s", err.Error())
 		return err
 	}
 
-	_, err = ins.Exec(t.Ticker, t.Dividened)
+	_, err = ins.Exec(t.Ticker, t.Dividened, t.SectorId)
 	if err != nil {
 		log.Printf("Exec Error: %s", err.Error())
 		return err
@@ -56,13 +58,13 @@ func AddTicker(db *sql.DB, t Ticker) error {
 }
 
 func UpdateTicker(db *sql.DB, t Ticker) error {
-	ins, err := db.Prepare("UPDATE ticker SET ticker=$1,dividened=$2 WHERE id=$3")
+	ins, err := db.Prepare("UPDATE ticker SET ticker=$1,dividened=$2,sector=$3 WHERE id=$4")
 	if err != nil {
 		log.Printf("Query Error: %s", err.Error())
 		return err
 	}
 
-	_, err = ins.Exec(t.Ticker, t.Dividened, t.Id)
+	_, err = ins.Exec(t.Ticker, t.Dividened, t.SectorId, t.Id)
 	if err != nil {
 		log.Printf("Exec Error: %s", err.Error())
 		return err
