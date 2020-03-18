@@ -78,10 +78,9 @@ export default {
       }).then(text =>{
         this.content = text;
 
-      }).catch(err =>{
+      }).catch(() =>{
         this.isLoading = false;
         this.isOK = false;
-        alert(err);
       });
     },
   },
