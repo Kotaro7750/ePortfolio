@@ -2,9 +2,10 @@
   <div>
     <h1>{{$route.params.ticker}}</h1>
     <b-tabs>
-      <b-tab title="概要">
+      <b-tab active title="概要">
+        <FinancialReportMD :url="$route.params.about_url" />
       </b-tab>
-      <b-tab active title="決算">
+      <b-tab title="決算">
         <b-button-toolbar key-nav>
 
         <b-button-group class="mx-1">
@@ -38,11 +39,13 @@
 
 <script>
 import  FinancialReport  from "@/components/ticker_detail/FinancialReport.vue";
+import  FinancialReportMD  from "@/components/ticker_detail/FinancialReportMD.vue";
 
 export default {
   name:'TickerDetail',
   components:{
     FinancialReport,
+    FinancialReportMD,
   },
   data: function(){
     return {

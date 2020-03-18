@@ -26,6 +26,9 @@
       <b-form-group label="Dividened">
         <b-form-input type="number" v-model="addedTicker.dividened"></b-form-input>
       </b-form-group>
+      <b-form-group label="AboutURL">
+        <b-form-input type="text" v-model="addedTicker.about_url"></b-form-input>
+      </b-form-group>
     </b-modal>
   </div>
 </template>
@@ -47,6 +50,7 @@ export default {
         ticker:"",
         dividened:0,
         sector:0,
+        about_url:"",
       },
       hopedYield:3,
     }
@@ -57,6 +61,7 @@ export default {
         this.addedTicker.ticker = '';
         this.addedTicker.dividened = 0;
         this.addedTicker.sector = 0;
+        this.addedTicker.about_url = '';
       },
     addTicker(){
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
@@ -68,7 +73,13 @@ export default {
               "Content-Type": "application/json",
               'Authorization': `Bearer ${idToken}`,
           },
-          body: JSON.stringify({ticker:this.addedTicker.ticker, dividened:Number(this.addedTicker.dividened), sector_id:this.addedTicker.sector}),
+          body: JSON.stringify(
+          {
+            ticker:this.addedTicker.ticker,
+            dividened:Number(this.addedTicker.dividened),
+            sector_id:this.addedTicker.sector,
+            about_url:this.addedTicker.about_url,
+          }),
 
         })
       }.bind(this)).then(res =>{

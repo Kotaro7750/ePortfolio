@@ -17,6 +17,9 @@
       <b-form-group label="Dividened">
         <b-form-input type="number" v-model="edittingTicker.dividened"></b-form-input>
       </b-form-group>
+      <b-form-group label="AboutURL">
+        <b-form-input type="text" v-model="edittingTicker.about_url"></b-form-input>
+      </b-form-group>
     </b-modal>
 
     <b-modal id="modal-delete" centered title="以下の履歴を削除していいですか？" @ok="deleteTicker">
@@ -50,6 +53,7 @@ export default {
         ticker:"",
         dividened:0,
         sector:0,
+        about_url:"",
       },
 
       deletedID:-1,
@@ -80,6 +84,7 @@ export default {
           sector:this.ticker_list[i].sector,
           sector_id:this.ticker_list[i].sector_id,
           expected_price:(this.ticker_list[i].dividened*100/this.yield).toFixed(2),
+          about_url:this.ticker_list[i].about_url,
         })
       }
       return ret
@@ -88,7 +93,7 @@ export default {
 
   methods:{
     tickerDetail(row){
-      this.$router.push({name:'TickerDetail' ,params: {id:row.id,ticker:row.ticker}});
+      this.$router.push({name:'TickerDetail' ,params: {id:row.id,ticker:row.ticker,about_url:row.about_url}});
     },
 
     modalDelete(id) {
@@ -101,6 +106,7 @@ export default {
       this.edittingTicker.ticker = item.ticker;
       this.edittingTicker.dividened = item.dividened;
       this.edittingTicker.sector = item.sector_id;
+      this.edittingTicker.about_url = item.about_url;
       this.$bvModal.show('modal-edit');
     },
 
@@ -173,7 +179,8 @@ export default {
             id:this.edittingTicker.id,
             ticker:this.edittingTicker.ticker,
             dividened:Number(this.edittingTicker.dividened),
-            sector_id:this.edittingTicker.sector
+            sector_id:this.edittingTicker.sector,
+            about_url:this.edittingTicker.about_url
           }),
 
         })
