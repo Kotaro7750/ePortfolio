@@ -5,6 +5,11 @@
       <b-card title="ティッカー別配当割合">
         <DoughnutGraph :labels="chart_label" :dataset="chart_data" :backgroundColor="chart_color" />
       </b-card>
+      <b-card title="配当履歴">
+        <div class="embed-responsive embed-responsive-1by1">
+          <iframe seamless frameborder="0" scrolling="yes" :src="dividened_history_url"></iframe>
+        </div>
+      </b-card>
     </b-card-group > 
   </div>
   
@@ -25,6 +30,7 @@ export default {
     return {
       isLoading:true,
       share_list:function () {return [];},
+      dividened_history_url:process.env.VUE_APP_DIVIDENED_URL,
     }
   },
 
