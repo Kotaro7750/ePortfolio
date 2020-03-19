@@ -23,11 +23,17 @@
       <b-form-group label="Ticker">
         <b-form-input type="text" v-model="addedTicker.ticker"></b-form-input>
       </b-form-group>
+
       <b-form-group label="Dividened">
         <b-form-input type="number" v-model="addedTicker.dividened"></b-form-input>
       </b-form-group>
+
       <b-form-group label="AboutURL">
         <b-form-input type="text" v-model="addedTicker.about_url"></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Color">
+        <b-form-input type="color" v-model="addedTicker.color"></b-form-input>
       </b-form-group>
     </b-modal>
   </div>
@@ -51,6 +57,7 @@ export default {
         dividened:0,
         sector:0,
         about_url:"",
+        color:"",
       },
       hopedYield:3,
     }
@@ -79,6 +86,7 @@ export default {
             dividened:Number(this.addedTicker.dividened),
             sector_id:this.addedTicker.sector,
             about_url:this.addedTicker.about_url,
+            color:this.addedTicker.color,
           }),
 
         })

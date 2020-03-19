@@ -36,6 +36,7 @@ export default {
   created(){
     this.updateList();
   },
+
   computed: {
     totalDividened: function () {
       let total = 0;
@@ -44,6 +45,7 @@ export default {
       }
       return total;
     },
+
     share_list_table: function () {
       let ret = [];
       let total_amount=0;
@@ -75,7 +77,7 @@ export default {
         _rowVariant:'info',
       });
       return ret;
-    }
+    },
   },
 
   methods:{

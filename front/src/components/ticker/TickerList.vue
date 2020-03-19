@@ -14,11 +14,17 @@
 
     <b-modal id="modal-edit" centered title="ティッカー編集" @ok="updateTicker">
       <SectorSelector :selected_sector="edittingTicker.sector" :value="edittingTicker.sector" @input="edittingTicker.sector = $event"/>
+
       <b-form-group label="Dividened">
         <b-form-input type="number" v-model="edittingTicker.dividened"></b-form-input>
       </b-form-group>
+
       <b-form-group label="AboutURL">
         <b-form-input type="text" v-model="edittingTicker.about_url"></b-form-input>
+      </b-form-group>
+
+      <b-form-group label="Color">
+        <b-form-input type="color" v-model="edittingTicker.color"></b-form-input>
       </b-form-group>
     </b-modal>
 
@@ -54,6 +60,7 @@ export default {
         dividened:0,
         sector:0,
         about_url:"",
+        color:"",
       },
 
       deletedID:-1,
@@ -85,6 +92,7 @@ export default {
           sector_id:this.ticker_list[i].sector_id,
           expected_price:(this.ticker_list[i].dividened*100/this.yield).toFixed(2),
           about_url:this.ticker_list[i].about_url,
+          color:this.ticker_list[i].color,
         })
       }
       return ret
@@ -107,6 +115,7 @@ export default {
       this.edittingTicker.dividened = item.dividened;
       this.edittingTicker.sector = item.sector_id;
       this.edittingTicker.about_url = item.about_url;
+      this.edittingTicker.color = item.color;
       this.$bvModal.show('modal-edit');
     },
 
@@ -180,7 +189,8 @@ export default {
             ticker:this.edittingTicker.ticker,
             dividened:Number(this.edittingTicker.dividened),
             sector_id:this.edittingTicker.sector,
-            about_url:this.edittingTicker.about_url
+            about_url:this.edittingTicker.about_url,
+            color:this.edittingTicker.color,
           }),
 
         })
