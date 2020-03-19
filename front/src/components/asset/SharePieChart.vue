@@ -3,7 +3,7 @@
     <Loading v-if="isLoading"/>
     <b-card-group deck v-else> 
       <b-card title="ティッカー別配当割合">
-        <DoughnutGraph :labels="chart_label" :dataset="chart_data" :backgroundColor="chart_color"/>
+        <DoughnutGraph :labels="chart_label" :dataset="chart_data" :backgroundColor="chart_color" :text="total_dividened"/>
       </b-card>
     </b-card-group > 
   </div>
@@ -13,7 +13,7 @@
 <script>
 import firebase from 'firebase/app';
 import  Loading  from "@/components/Loading.vue";
-import  DoughnutGraph  from "@/components/share/DoughnutGraph.vue";
+import  DoughnutGraph  from "@/components/asset/DoughnutGraph.vue";
 
 export default {
   name :'SharePieChart',
@@ -55,10 +55,20 @@ export default {
         ret.push(this.share_list[i].color);
       }
       return ret;
-    }
+    },
+    total_dividened: function () {
+      let total = 0;
+      for (let i in this.share_list) {
+        total += this.share_list[i].dividened;
+      }
+      return total;
+    },
   },
 
   methods:{
+    hoge(){
+      return "hoggehoe";
+    },
     updateList(){
       this.isLoading=true;
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {

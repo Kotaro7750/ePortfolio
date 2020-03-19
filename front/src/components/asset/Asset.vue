@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import  ShareList  from "@/components/share/ShareList.vue";
-import  SharePieChart  from "@/components/share/SharePieChart.vue";
+import  ShareList  from "@/components/asset/ShareList.vue";
+import  SharePieChart  from "@/components/asset/SharePieChart.vue";
 export default {
   name:'Asset',
   components:{

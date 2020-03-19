@@ -7,7 +7,7 @@ import SignIn from '@/components/auth/SignIn'
 import Ticker from '@/components/ticker/Ticker'
 import TickerDetail from '@/components/ticker_detail/TickerDetail'
 import Purchase from '@/components/purchase/Purchase'
-import Asset from '@/components/share/Asset'
+import Asset from '@/components/asset/Asset'
 
 Vue.use(Router)
 Vue.use(BootstrapVue)
