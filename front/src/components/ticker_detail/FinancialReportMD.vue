@@ -6,6 +6,10 @@
         <b-card align="left" boarder-variant="dark">
 
           <template v-slot:header>
+            <b-button  @click="getMD">
+              <b-icon-arrow-clockwise></b-icon-arrow-clockwise>
+            </b-button>
+
             <b-button variant="warning" @click="$emit('edit')">
               <b-icon-pencil></b-icon-pencil>
             </b-button>
