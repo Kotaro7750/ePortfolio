@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <Loading v-if="isLoading"/>
     <b-container v-else>
       <b-row align-h="center">

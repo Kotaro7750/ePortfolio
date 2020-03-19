@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <h3>ティッカー</h3>
 
     <b-button-toolbar aria-label="Toolbar with button groups and input groups">

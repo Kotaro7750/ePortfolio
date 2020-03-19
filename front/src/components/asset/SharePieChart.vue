@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <Loading v-if="isLoading"/>
     <b-card-group deck v-else> 
       <b-card title="ティッカー別配当割合">
-        <DoughnutGraph :labels="chart_label" :dataset="chart_data" :backgroundColor="chart_color" :text="total_dividened"/>
+        <DoughnutGraph :labels="chart_label" :dataset="chart_data" :backgroundColor="chart_color" />
       </b-card>
     </b-card-group > 
   </div>
@@ -55,13 +55,6 @@ export default {
         ret.push(this.share_list[i].color);
       }
       return ret;
-    },
-    total_dividened: function () {
-      let total = 0;
-      for (let i in this.share_list) {
-        total += this.share_list[i].dividened;
-      }
-      return total;
     },
   },
 

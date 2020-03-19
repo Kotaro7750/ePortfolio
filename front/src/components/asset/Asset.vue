@@ -1,13 +1,16 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <h3>資産</h3>
     <b-tabs>
-      <b-tab title="一覧">
+      <b-tab >
+        <template v-slot:title>
+          <b-icon icon="list-ul"></b-icon>
+        </template>
         <ShareList />
       </b-tab>
       <b-tab >
         <template v-slot:title>
-          <b-icon icon="pie-chart"></b-icon>
+          <b-icon icon="graph-up"></b-icon>
         </template>
         <SharePieChart />
       </b-tab>

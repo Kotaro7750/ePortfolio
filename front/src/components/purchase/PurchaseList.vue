@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <Loading v-if="isLoading"/>
     <b-table v-else responsive :items="purchase_history_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc">
       <template v-slot:cell(action)="row">

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <h1>{{$route.params.ticker}}</h1>
     <b-tabs>
       <b-tab active title="概要">

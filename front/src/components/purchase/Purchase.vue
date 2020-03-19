@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <h3>株式購入</h3>
     <b-container fluid>
         <b-col cols="1">

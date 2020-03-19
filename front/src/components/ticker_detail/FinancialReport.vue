@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <Loading v-if="isLoading"/>
     <div v-else-if="noReport">
       <b-button variant="success" v-b-modal.modal-add>

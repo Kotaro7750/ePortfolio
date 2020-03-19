@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container-fluid">
     <Loading v-if="isLoading"/>
     <b-table v-else responsive :items="share_list_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" >
     </b-table>
