@@ -95,4 +95,34 @@ export default {
   .md-content iframe{
     max-width: 100% !important;
   }
+
+  .md-content h2{
+    padding: 0.4em 0.5em;/*文字の上下 左右の余白*/
+    background: #f4f4f4;/*背景色*/
+    border-left: solid 5px #000000;/*左線*/
+    border-bottom: solid 3px #d7d7d7;/*下線*/
+  }
+
+  .md-content h3{
+    padding: 0.25em 0.5em;/*上下 左右の余白*/
+    background: transparent;/*背景透明に*/
+    border-left: solid 5px #000000;/*左線*/
+  }
+
+  .md-content table{
+  border-collapse:collapse;
+  margin:0 auto;
+  }
+  
+  .md-content td{
+    border-bottom:1px dashed #000;
+  }
+  
+  .md-content th,tr:last-child td{
+    border-bottom:2px solid #000000;
+  }
+  
+  .md-content td,th{
+    padding:10px;
+  }
 </style>
