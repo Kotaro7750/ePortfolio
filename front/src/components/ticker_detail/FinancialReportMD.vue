@@ -15,7 +15,7 @@
             </b-button>
           </template>
 
-          <div v-html="showMD" v-if="isOK"></div>
+          <div class="md-content" v-html="showMD" v-if="isOK"></div>
           <div v-else>無効なURLです</div>
         </b-card>
       </b-row>
@@ -90,3 +90,9 @@ export default {
   },
 }
 </script>
+
+<style >
+  .md-content iframe{
+    max-width: 100% !important;
+  }
+</style>
