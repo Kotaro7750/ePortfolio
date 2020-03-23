@@ -1,16 +1,18 @@
 <template>
   <div class="container-fluid">
     <Loading v-if="isLoading"/>
-    <b-table v-else responsive hover :items="ticker_list_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @row-clicked="tickerDetail">
-      <template v-slot:cell(action)="row">
-        <b-button size="sm" @click="modalEdit(row.item)" class="mr-2" variant="warning">
-          <b-icon-pencil></b-icon-pencil>
-        </b-button>
-        <b-button size="sm" @click="modalDelete(row.item.id)" class="mr-2" variant="danger">
-          <b-icon-trash></b-icon-trash>
-        </b-button>
-      </template>
-    </b-table>
+    <div v-else class="table-responsive">
+      <b-table responsive hover :items="ticker_list_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @row-clicked="tickerDetail">
+        <template v-slot:cell(action)="row">
+          <b-button size="sm" @click="modalEdit(row.item)" class="mr-2" variant="warning">
+            <b-icon-pencil></b-icon-pencil>
+          </b-button>
+          <b-button size="sm" @click="modalDelete(row.item.id)" class="mr-2" variant="danger">
+            <b-icon-trash></b-icon-trash>
+          </b-button>
+        </template>
+      </b-table>
+    </div>
 
     <b-modal id="modal-edit" centered title="ティッカー編集" @ok="updateTicker">
       <SectorSelector :selected_sector="edittingTicker.sector" :value="edittingTicker.sector" @input="edittingTicker.sector = $event"/>
