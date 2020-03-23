@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <Loading v-if="isLoading"/>
-    <div v-else class="table-responsive">
+    <div v-else class="table-responsive" style="overflow:hidden">
       <b-table responsive hover :items="ticker_list_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" @row-clicked="tickerDetail">
         <template v-slot:cell(action)="row">
           <b-button size="sm" @click="modalEdit(row.item)" class="mr-2" variant="warning">

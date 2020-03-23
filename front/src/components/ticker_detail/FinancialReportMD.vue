@@ -110,8 +110,8 @@ export default {
   }
 
   .md-content table{
-  border-collapse:collapse;
-  margin:0 auto;
+    border-collapse:collapse;
+    margin:0 auto;
   }
   
   .md-content td{

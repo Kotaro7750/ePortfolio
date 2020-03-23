@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <Loading v-if="isLoading"/>
-    <div v-else class="table-responsive">
+    <div v-else class="table-responsive" style="overflow:hidden">
       <b-table responsive :items="share_list_table" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" >
       </b-table>
     </div>
