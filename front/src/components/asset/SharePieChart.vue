@@ -6,8 +6,8 @@
         <DoughnutGraph :labels="chart_label" :dataset="chart_data" :backgroundColor="chart_color" />
       </b-card>
       <b-card title="配当履歴">
-        <div class="embed-responsive embed-responsive-1by1">
-          <iframe seamless frameborder="0" scrolling="yes" :src="dividened_history_url"></iframe>
+        <div class="dividend_history">
+          <iframe width="600" height="371" seamless frameborder="0" scrolling="yes" :src="dividened_history_url"></iframe>
         </div>
       </b-card>
     </b-card-group > 
@@ -99,3 +99,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+  .dividend_history /deep/ iframe{
+    max-width: 100% !important;
+  }
+</style>

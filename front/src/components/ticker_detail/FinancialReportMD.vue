@@ -118,7 +118,7 @@ export default {
     border-bottom:1px dashed #000;
   }
   
-  .md-content th,tr:last-child td{
+  .md-content th, .md-content tr:last-child td{
     border-bottom:2px solid #000000;
   }
   
