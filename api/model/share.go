@@ -2,14 +2,13 @@ package model
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
-	"strconv"
 )
 
 type Share struct {
 	Id        int     `json:"id"`
 	Ticker    string  `json:"ticker"`
+	Sector    string  `json:"sector"`
 	Color     string  `json:"color"`
 	Amount    int     `json:"amount"`
 	Dividened float64 `json:"dividened"`
@@ -19,7 +18,20 @@ type Share struct {
 
 func GetShareList(db *sql.DB) ([]Share, error) {
 	rows, err := db.Query(
-		"SELECT ticker.id,ticker.ticker,ticker.color,ticker.dividened,purchase_history.share, purchase_history.cost FROM purchase_history INNER JOIN ticker ON purchase_history.ticker_id = ticker.id")
+		`SELECT 
+
+      ticker.id,
+      ticker.ticker,
+      sector.sector,
+      ticker.color,
+      SUM(purchase_history.share * ticker.dividened),
+      SUM(purchase_history.share),
+      SUM(purchase_history.cost * purchase_history.share) 
+
+     FROM purchase_history INNER JOIN ticker ON purchase_history.ticker_id = ticker.id 
+     INNER JOIN sector ON ticker.sector = sector.id
+     GROUP BY ticker.id,sector.sector
+    `)
 
 	if err != nil {
 		log.Fatal(err)
@@ -27,42 +39,16 @@ func GetShareList(db *sql.DB) ([]Share, error) {
 	defer rows.Close()
 
 	var shares []Share
-	tmp := make(map[int]struct {
-		ticker    string
-		color     string
-		amount    int
-		dividened float64
-		totalCost float64
-	})
 
 	for rows.Next() {
-		var id int
-		var ticker string
-		var color string
-		var amount int
-		var dividened float64
-		var totalCost float64
+		var share Share
 
-		if err := rows.Scan(&id, &ticker, &color, &dividened, &amount, &totalCost); err != nil {
+		if err := rows.Scan(&share.Id, &share.Ticker, &share.Sector, &share.Color, &share.Dividened, &share.Amount, &share.TotalCost); err != nil {
 			log.Printf("Query Error: %s", err.Error())
 			return nil, err
 		}
-		amount += tmp[id].amount
-		totalCost += tmp[id].totalCost
-
-		tmp[id] = struct {
-			ticker    string
-			color     string
-			amount    int
-			dividened float64
-			totalCost float64
-		}{
-			ticker:    ticker,
-			color:     color,
-			amount:    amount,
-			dividened: dividened,
-			totalCost: totalCost,
-		}
+		share.MeanCost = share.TotalCost / float64(share.Amount)
+		shares = append(shares, share)
 	}
 
 	if err := rows.Err(); err != nil {
@@ -70,12 +56,5 @@ func GetShareList(db *sql.DB) ([]Share, error) {
 		return nil, err
 	}
 
-	for id, obj := range tmp {
-		totalDividened := obj.dividened * float64(obj.amount)
-		meanCost := obj.totalCost / float64(obj.amount)
-		meanCost, _ = strconv.ParseFloat(fmt.Sprintf("%.2f", meanCost), 64)
-
-		shares = append(shares, Share{Id: id, Ticker: obj.ticker, Color: obj.color, Amount: obj.amount, Dividened: totalDividened, TotalCost: obj.totalCost, MeanCost: meanCost})
-	}
 	return shares, nil
 }
