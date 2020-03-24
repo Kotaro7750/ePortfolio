@@ -26,7 +26,7 @@ func GetShareList(db *sql.DB) ([]Share, error) {
       ticker.color,
       SUM(purchase_history.share * ticker.dividened),
       SUM(purchase_history.share),
-      SUM(purchase_history.cost * purchase_history.share) 
+      SUM(purchase_history.cost) 
 
      FROM purchase_history INNER JOIN ticker ON purchase_history.ticker_id = ticker.id 
      INNER JOIN sector ON ticker.sector = sector.id
