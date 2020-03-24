@@ -19,6 +19,7 @@ type ShareForTicker struct {
 type ShareForSector struct {
 	Id        int     `json:"id"`
 	Sector    string  `json:"sector"`
+	Color     string  `json:"color"`
 	Amount    int     `json:"amount"`
 	Dividened float64 `json:"dividened"`
 	TotalCost float64 `json:"total_cost"`
@@ -74,6 +75,7 @@ func GetShareForSector(db *sql.DB) ([]ShareForSector, error) {
 
       sector.id,
       sector.sector,
+      sector.color,
       SUM(purchase_history.share * ticker.dividened),
       SUM(purchase_history.share),
       SUM(purchase_history.cost) 
@@ -93,7 +95,7 @@ func GetShareForSector(db *sql.DB) ([]ShareForSector, error) {
 	for rows.Next() {
 		var share ShareForSector
 
-		if err := rows.Scan(&share.Id, &share.Sector, &share.Dividened, &share.Amount, &share.TotalCost); err != nil {
+		if err := rows.Scan(&share.Id, &share.Sector, &share.Color, &share.Dividened, &share.Amount, &share.TotalCost); err != nil {
 			log.Printf("Query Error: %s", err.Error())
 			return nil, err
 		}
