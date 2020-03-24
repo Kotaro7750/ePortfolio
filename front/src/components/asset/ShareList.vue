@@ -24,6 +24,7 @@ export default {
       share_list:function () {return [];},
       fields: [
           { key: 'ticker', sortable: true },
+          { key: 'sector', sortable: true },
           { key: 'amount', sortable: true },
           { key: 'total_cost', sortable: true },
           { key: 'mean_cost', sortable: true },
@@ -60,6 +61,7 @@ export default {
 
         ret.push({
           ticker:this.share_list[i].ticker,
+          sector:this.share_list[i].sector,
           amount:this.share_list[i].amount,
           total_cost:this.share_list[i].total_cost,
           mean_cost:this.share_list[i].mean_cost,
