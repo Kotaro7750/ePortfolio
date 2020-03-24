@@ -54,7 +54,8 @@ func main() {
 	router.PUT("/purchase/:id", auth.AuthMiddleWare(), purchaseCtl.Update)
 	router.DELETE("/purchase/:id", auth.AuthMiddleWare(), purchaseCtl.Delete)
 
-	router.GET("/share", auth.AuthMiddleWare(), shareCtl.GetList)
+	router.GET("/share/ticker", auth.AuthMiddleWare(), shareCtl.GetShareForTickerList)
+	router.GET("/share/sector", auth.AuthMiddleWare(), shareCtl.GetShareForSectorList)
 
 	router.GET("/financial_report", auth.AuthMiddleWare(), financialReportCtl.GetMD)
 	router.GET("/financial_report/:year/:quarter/:ticker_id", auth.AuthMiddleWare(), financialReportCtl.GetURL)
