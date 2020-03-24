@@ -1,27 +1,17 @@
 <template>
-  <div class="container-fluid">
+  <b-card title="ティッカー別配当割合" >
     <Loading v-if="isLoading"/>
-    <b-card-group deck v-else> 
-      <b-card title="ティッカー別配当割合">
-        <DoughnutGraph :labels="chart_label" :dataset="chart_data" :backgroundColor="chart_color" />
-      </b-card>
-      <b-card title="配当履歴">
-        <div class="dividend_history">
-          <iframe width="600" height="371" seamless frameborder="0" scrolling="yes" :src="dividened_history_url"></iframe>
-        </div>
-      </b-card>
-    </b-card-group > 
-  </div>
-  
+    <DoughnutGraph :labels="chart_label" :dataset="chart_data" :backgroundColor="chart_color" v-else/>
+  </b-card>
 </template>
 
 <script>
 import firebase from 'firebase/app';
 import  Loading  from "@/components/Loading.vue";
-import  DoughnutGraph  from "@/components/asset/DoughnutGraph.vue";
+import  DoughnutGraph  from "@/components/DoughnutGraph.vue";
 
 export default {
-  name :'SharePieChart',
+  name :'DividendRatioForTicker',
   components:{
     Loading,
     DoughnutGraph,
@@ -30,7 +20,6 @@ export default {
     return {
       isLoading:true,
       share_list:function () {return [];},
-      dividened_history_url:process.env.VUE_APP_DIVIDENED_URL,
     }
   },
 
@@ -65,13 +54,10 @@ export default {
   },
 
   methods:{
-    hoge(){
-      return "hoggehoe";
-    },
     updateList(){
       this.isLoading=true;
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-        let url = process.env.VUE_APP_API_URL + '/share'
+        let url = process.env.VUE_APP_API_URL + '/share/ticker'
 
         return fetch(url,{
           method:'GET',
@@ -99,9 +85,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-  .dividend_history /deep/ iframe{
-    max-width: 100% !important;
-  }
-</style>

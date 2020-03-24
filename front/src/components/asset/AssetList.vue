@@ -14,7 +14,7 @@ import firebase from 'firebase/app';
 import  Loading  from "@/components/Loading.vue";
 
 export default {
-  name :'ShareList',
+  name :'AssetList',
   components:{
     Loading,
   },
@@ -88,7 +88,7 @@ export default {
     updateList(){
       this.isLoading=true;
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
-        let url = process.env.VUE_APP_API_URL + '/share'
+        let url = process.env.VUE_APP_API_URL + '/share/ticker'
 
         return fetch(url,{
           method:'GET',

@@ -6,26 +6,26 @@
         <template v-slot:title>
           <b-icon icon="list-ul"></b-icon>
         </template>
-        <ShareList />
+        <AssetList />
       </b-tab>
       <b-tab >
         <template v-slot:title>
           <b-icon icon="graph-up"></b-icon>
         </template>
-        <SharePieChart />
+        <AssetChart />
       </b-tab>
     </b-tabs>
   </div>
 </template>
 
 <script>
-import  ShareList  from "@/components/asset/ShareList.vue";
-import  SharePieChart  from "@/components/asset/SharePieChart.vue";
+import  AssetList  from "@/components/asset/AssetList.vue";
+import  AssetChart  from "@/components/asset/AssetChart.vue";
 export default {
   name:'Asset',
   components:{
-    ShareList,
-    SharePieChart,
+    AssetList,
+    AssetChart,
   },
 }
 </script>
