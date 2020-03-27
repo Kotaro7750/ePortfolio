@@ -17,6 +17,7 @@
 
         <b-nav-item href="/purchase">株式購入</b-nav-item>
         <b-nav-item href="/ticker">ティッカー</b-nav-item>
+        <b-nav-item href="/memo">メモ</b-nav-item>
 
         <b-nav-item @click="signOut">サインアウト</b-nav-item>
       </b-navbar-nav>

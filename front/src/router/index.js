@@ -8,6 +8,8 @@ import Ticker from '@/components/ticker/Ticker'
 import TickerDetail from '@/components/ticker_detail/TickerDetail'
 import Purchase from '@/components/purchase/Purchase'
 import Asset from '@/components/asset/Asset'
+import Memo from '@/components/memo/Memo'
+import MemoDetail from '@/components/memo/MemoDetail'
 
 Vue.use(Router)
 Vue.use(BootstrapVue)
@@ -45,6 +47,18 @@ let router = new Router({
       path: '/purchase',
       name: 'Purchase',
       component: Purchase,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/memo',
+      name: 'Memo',
+      component: Memo,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/memo_detail/:id',
+      name: 'MemoDetail',
+      component: MemoDetail,
       meta: { requiresAuth: true }
     },
   ],
