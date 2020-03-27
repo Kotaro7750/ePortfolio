@@ -21,6 +21,8 @@
         <b-form-input type="number" v-model="edittingTicker.dividened"></b-form-input>
       </b-form-group>
 
+      <MonthSelector :label="'Dividend Month'" :months="edittingTicker.dividened_month" :value="edittingTicker.dividened_month" @input="edittingTicker.dividened_month = $event"/>
+
       <b-form-group label="AboutURL">
         <b-form-input type="text" v-model="edittingTicker.about_url"></b-form-input>
       </b-form-group>
@@ -40,6 +42,7 @@
 <script>
 import  Loading  from "@/components/Loading.vue";
 import  SectorSelector  from "@/components/SectorSelector.vue";
+import  MonthSelector  from "@/components/MonthSelector.vue";
 import firebase from 'firebase/app';
 
 export default {
@@ -47,6 +50,7 @@ export default {
   components:{
     Loading,
     SectorSelector,
+    MonthSelector,
   },
   props: {
     yield:Number,
@@ -63,6 +67,7 @@ export default {
         sector:0,
         about_url:"",
         color:"",
+        dividened_month:[],
       },
 
       deletedID:-1,
@@ -70,6 +75,7 @@ export default {
           { key: 'ticker', sortable: true },
           { key: 'sector', sortable: true },
           { key: 'dividened', sortable: true },
+          { key: 'dividened_month', sortable: false },
           { key: 'expected_price', sortable: false },
           { key: 'action',label:"", sortable: false }
         ],
@@ -95,6 +101,7 @@ export default {
           expected_price:(this.ticker_list[i].dividened*100/this.yield).toFixed(2),
           about_url:this.ticker_list[i].about_url,
           color:this.ticker_list[i].color,
+          dividened_month:this.ticker_list[i].dividened_month.join(','),
         })
       }
       return ret
@@ -118,6 +125,7 @@ export default {
       this.edittingTicker.sector = item.sector_id;
       this.edittingTicker.about_url = item.about_url;
       this.edittingTicker.color = item.color;
+      this.edittingTicker.dividened_month = item.dividened_month.split(',').concat();
       this.$bvModal.show('modal-edit');
     },
 
@@ -193,6 +201,7 @@ export default {
             sector_id:this.edittingTicker.sector,
             about_url:this.edittingTicker.about_url,
             color:this.edittingTicker.color,
+            dividened_month:this.edittingTicker.dividened_month,
           }),
 
         })

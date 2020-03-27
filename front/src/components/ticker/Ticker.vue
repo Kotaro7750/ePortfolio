@@ -20,6 +20,7 @@
 
     <b-modal centered id="modal-add" title="Add Ticker" @show="resetModal" @ok="addTicker">
       <SectorSelector :value="addedTicker.sector" @input="addedTicker.sector = $event"/>
+      <MonthSelector :label="'Dividend Month'" :value="addedTicker.dividened_month" @input="addedTicker.dividened_month = $event"/>
       <b-form-group label="Ticker">
         <b-form-input type="text" v-model="addedTicker.ticker"></b-form-input>
       </b-form-group>
@@ -42,6 +43,7 @@
 <script>
 import  TickerList  from "@/components/ticker/TickerList.vue";
 import  SectorSelector  from "@/components/SectorSelector.vue";
+import  MonthSelector  from "@/components/MonthSelector.vue";
 import firebase from 'firebase/app';
 
 export default {
@@ -49,6 +51,7 @@ export default {
   components:{
     TickerList,
     SectorSelector,
+    MonthSelector,
   },
   data: function(){
     return {
@@ -58,6 +61,7 @@ export default {
         sector:0,
         about_url:"",
         color:"",
+        dividened_month:[],
       },
       hopedYield:3,
     }
@@ -69,6 +73,7 @@ export default {
         this.addedTicker.dividened = 0;
         this.addedTicker.sector = 0;
         this.addedTicker.about_url = '';
+        this.addedTicker.dividened_month = [];
       },
     addTicker(){
       firebase.auth().currentUser.getIdToken(true).then(function(idToken) {
@@ -87,6 +92,7 @@ export default {
             sector_id:this.addedTicker.sector,
             about_url:this.addedTicker.about_url,
             color:this.addedTicker.color,
+            dividened_month:this.addedTicker.dividened_month,
           }),
 
         })
