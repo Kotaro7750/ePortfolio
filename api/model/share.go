@@ -3,17 +3,19 @@ package model
 import (
 	"database/sql"
 	"log"
+	"strings"
 )
 
 type ShareForTicker struct {
-	Id        int     `json:"id"`
-	Ticker    string  `json:"ticker"`
-	Sector    string  `json:"sector"`
-	Color     string  `json:"color"`
-	Amount    int     `json:"amount"`
-	Dividened float64 `json:"dividened"`
-	TotalCost float64 `json:"total_cost"`
-	MeanCost  float64 `json:"mean_cost"`
+	Id             int      `json:"id"`
+	Ticker         string   `json:"ticker"`
+	Sector         string   `json:"sector"`
+	Color          string   `json:"color"`
+	Amount         int      `json:"amount"`
+	Dividened      float64  `json:"dividened"`
+	TotalCost      float64  `json:"total_cost"`
+	MeanCost       float64  `json:"mean_cost"`
+	DividenedMonth []string `json:"dividened_month"`
 }
 
 type ShareForSector struct {
@@ -35,6 +37,7 @@ func GetShareForTicker(db *sql.DB) ([]ShareForTicker, error) {
       sector.sector,
       ticker.color,
       SUM(purchase_history.share * ticker.dividened),
+      ticker.dividened_month,
       SUM(purchase_history.share),
       SUM(purchase_history.cost) 
 
@@ -52,11 +55,14 @@ func GetShareForTicker(db *sql.DB) ([]ShareForTicker, error) {
 
 	for rows.Next() {
 		var share ShareForTicker
+		var dividenedMonth string
 
-		if err := rows.Scan(&share.Id, &share.Ticker, &share.Sector, &share.Color, &share.Dividened, &share.Amount, &share.TotalCost); err != nil {
+		if err := rows.Scan(&share.Id, &share.Ticker, &share.Sector, &share.Color, &share.Dividened, &dividenedMonth, &share.Amount, &share.TotalCost); err != nil {
 			log.Printf("Query Error: %s", err.Error())
 			return nil, err
 		}
+
+		share.DividenedMonth = strings.Split(dividenedMonth, ",")
 		share.MeanCost = share.TotalCost / float64(share.Amount)
 		shares = append(shares, share)
 	}
