@@ -15,7 +15,7 @@
     "core-js": "^3.6.4",
     "express": "^4.17.1",
     "firebase": "^7.9.3",
-    "marked": "^0.8.0",
+    "marked": "^4.0.10",
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.0",
     "vue-router": "^3.1.6"
